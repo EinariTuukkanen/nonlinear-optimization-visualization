@@ -1,0 +1,128 @@
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Unconstrained Nonlinear Optimization - Visualization</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="author" content="Ben Frederickson">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+<div id="contour_graph" style="width:600px"> </div>
+
+<div id="resultMessage">
+  <span id="status">Click on the plot to begin</span><br />
+  <span id="solution"></span><br />
+  <span id="performance"></span><br />
+  <span id="lsPerformance"></span>
+</div>
+
+<div id="targetFunction">
+  <span>Target Function</span><br />
+</div>
+
+<br />
+
+<div id="mainMethodParameters">
+  <span>Main Method</span><br />
+</div>
+
+<br />
+
+<div id="lineSearchMethodParameters">
+  <span>Line Search Method</span><br />
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/4.2.3/d3.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjs/5.9.0/math.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+<script src="./src/common.js"></script>
+<script src="./src/contour_plot.js"></script>
+<script src="./src/exampleFunctions.js"></script>
+<script src="./src/lineSearchMethods.js"></script>
+<script src="./src/mainMethods.js"></script>
+<script src="./src/visualization.js"></script>
+
+<script>
+
+// Global variables
+let theta = himmelblau;
+let mainMethod = NewtonsMethod;
+let lineSearchMethod = ConstantSearch;
+
+const lineSearchColors = {
+  ConstantSearch: '#FF0000',
+  GoldenSectionSearch: '#800000',
+  BisectionSearch: '#FFFF00',
+  DichotomousSearch: '#808000',
+  FibonacciSearch: '#00FF00',
+  UniformSearch: '#008000',
+  NewtonsSearch: '#00FFFF',
+  ArmijoSearch: '#FF00FF',
+}
+
+// Initalize graphical interface
+initDropdown(
+  '#targetFunction',
+  (v) => initPlot('#contour_graph', visualizableFunctions[v]),
+  Object.keys(visualizableFunctions)
+);
+initDropdown(
+  '#mainMethodParameters',
+  (v) => initSliders(mainMethods[v], lineSearchMethod),
+  Object.keys(mainMethods)
+);
+initDropdown(
+  '#lineSearchMethodParameters',
+  (v) => initSliders(mainMethod, lineSearchMethods[v]),
+  Object.keys(lineSearchMethods)
+);
+initSliders(mainMethod, lineSearchMethod);
+initPlot('#contour_graph', theta);
+
+
+function initPlot(selector, theta) {
+  // Reset existing graphs plot
+  removeChildren(selector);
+
+  const contourPlot = contour_plot.ContourPlot()
+    .f(theta.eval)
+    .drawAxis(false)
+    .xDomain(theta.xDomain)
+    .yDomain(theta.yDomain)
+    .contourCount(12)
+    .minima(theta.minima);
+
+  const plot = contourPlot(d3.select(selector));
+
+  plot.svg.on('click', function(a) {
+    const coords = d3.mouse(this);
+    const r = mainMethod.run(
+      theta,
+      math.matrix(plot.toUnits(coords)),
+      mainMethod.params,
+      lineSearchMethod,
+      lineSearchMethod.params,
+    );
+    const fparams = r.minPoint.toArray().map(i => i.toFixed(3));
+    const fvalue = r.minValue.toFixed(3);
+    const iterations = r.performance.iterations;
+    const duration = r.performance.duration.toFixed(1);
+    const lsIterations = r.performance.lineSearch.iterations;
+    const lsDuration = r.performance.lineSearch.duration.toFixed(1);
+    console.log(
+      (r.foundMinimum ?
+      `FOUND MINIMUM:\nf(${fparams}) = ${fvalue}\n` :
+      `NO MINIMUM:\nf(${r.minPoint.toArray().map(i => i.toFixed(3))}) = ${r.minValue.toFixed(3)}\n`) +
+      `in ${iterations} iterations (${duration} ms)\n` +
+      `Linesearch total: ${lsIterations} iterations (${lsDuration} ms)`
+    );
+    updateResultMessage(r.foundMinimum, fparams, fvalue, iterations, duration, lsIterations, lsDuration);
+    visualizeAlgorithm(plot, r.steps, lineSearchColors[lineSearchMethod.name]);
+  });
+}
+
+</script>
+</div></div></div>
+</body></html>
+

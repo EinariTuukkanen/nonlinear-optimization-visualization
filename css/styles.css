@@ -1,0 +1,37 @@
+.axis path,
+.axis line {
+    fill: none;
+    stroke: #666;
+}
+.axis {
+  font-family: "helvetica-nueue";
+    font-size: 10px;
+}
+.dot {
+  /* fill: #ff1100; */
+  stroke: #fff;
+}
+.param {
+  display: inline-block;
+}
+.trace {
+  fill: none;
+  /* stroke: #ff0000; */
+  stroke-width: 2;
+  stroke-linecap: round;
+}
+
+#resultMessage {
+  min-height: 80px;
+  max-width: 600px;
+  background-color: #ffffff;
+  margin: 10px 0;
+}
+
+#resultMessage.correct {
+  background-color: #c0eec0;
+}
+
+#resultMessage.incorrect {
+  background-color: #eec0c0;
+}
