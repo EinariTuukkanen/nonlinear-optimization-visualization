@@ -34,6 +34,18 @@ const exponentFunction = generate2DFunction(
   [20, -20],
 );
 
+/* Exponent function
+ * f(x, y) = 0.26 * (x ^ 2 + y ^ 2) - 0.48 * x * y
+ */
+const rosenbrockFunction  = generate2DFunction(
+  ([x, y]) => (1 - x) ** 2 + 100 * (y - x ** 2) ** 2,
+  '(1 - x) ^ 2 + 100 * (y - x ^ 2) ^ 2',
+  '(1 - (x1 + l * d1)) ^ 2 + 100 * ((x2 + l * d2) - (x1 + l * d1) ^ 2) ^ 2',
+  [{ x: 1, y: 1 }],
+  [-2, 2],
+  [2, -2],
+);
+
 
 function generate2DFunction(fastEval, equation, stepSizeEquation, minima, xDomain, yDomain) {
   /* Helper to generate 2D functions in form f(x, y)
@@ -94,6 +106,7 @@ const visualizableFunctions = {
   himmelblau,
   matyasFunction,
   exponentFunction,
+  rosenbrockFunction,
 };
 
 try {

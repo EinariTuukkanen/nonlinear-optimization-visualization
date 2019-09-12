@@ -1,36 +1,37 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <title>Unconstrained Nonlinear Optimization - Visualization</title>
+  <title>Nonlinear Optimization - Visualization</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="author" content="Ben Frederickson">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
   <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
 
 <div id="contour_graph" style="width:600px"> </div>
 
-<div id="resultMessage">
-  <span id="status">Click on the plot to begin</span><br />
-  <span id="solution"></span><br />
-  <span id="performance"></span><br />
-  <span id="lsPerformance"></span>
-</div>
+<div class="container">
+  <div id="targetFunction">
+    <b>Target Function</b><br />
+  </div>
 
-<div id="targetFunction">
-  <span>Target Function</span><br />
-</div>
+  <div id="resultMessage">
+    <span id="status">Click on the plot to begin</span><br />
+    <span id="solution"></span><br />
+    <span id="performance"></span><br />
+    <span id="lsPerformance"></span>
+  </div>
 
-<br />
+  <div id="mainMethodParameters">
+    <b>Main Method</b><br />
+  </div>
 
-<div id="mainMethodParameters">
-  <span>Main Method</span><br />
-</div>
+  <br />
 
-<br />
-
-<div id="lineSearchMethodParameters">
-  <span>Line Search Method</span><br />
+  <div id="lineSearchMethodParameters">
+    <b>Line Search Method</b><br />
+  </div>
 </div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/4.2.3/d3.min.js"></script>
