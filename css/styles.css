@@ -26,6 +26,10 @@
   margin: 0;
 }
 
+select {
+  margin-bottom: 10px;
+}
+
 #resultMessage {
   min-height: 80px;
   max-width: 600px;
