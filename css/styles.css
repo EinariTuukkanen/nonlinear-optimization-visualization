@@ -23,16 +23,26 @@
 
 .container {
   padding: 10px;
+  width: 800px;
   margin: 0;
+}
+
+.methodRow {
+  display: flex;
+  justify-content: space-between;
 }
 
 select {
   margin-bottom: 10px;
 }
 
+#targetFunction {
+  display: flex;
+  justify-content: center;
+}
+
 #resultMessage {
-  min-height: 80px;
-  max-width: 600px;
+  width: 100%;
   background-color: #ffffff;
   margin: 10px 0;
   padding: 10px;

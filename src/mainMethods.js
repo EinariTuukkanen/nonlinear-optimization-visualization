@@ -9,6 +9,7 @@
  * 
  */
 const NewtonsMethod = {
+  name: 'NewtonsMethod',
   sliderParams: defaultParams(['tolerance', 'maxIterations']),
 
   run: function(theta, x0, params, lineSearch, lineSearchParams) {
@@ -51,6 +52,7 @@ const NewtonsMethod = {
 
 
 const GradientDescentMethod = {
+  name: 'GradientDescentMethod',
   sliderParams: defaultParams(['tolerance', 'maxIterations']),
 
   run: function(theta, x0, params, lineSearch, lineSearchParams) {
@@ -93,6 +95,7 @@ const GradientDescentMethod = {
 
 
 const ConjugateGradientMethod = {
+  name: 'ConjugateGradientMethod',
   sliderParams: defaultParams(['tolerance', 'maxIterations']),
 
   run: function(theta, x0, params, lineSearch, lineSearchParams) {
@@ -104,17 +107,17 @@ const ConjugateGradientMethod = {
     const steps = [x0];       // Save points for visualization
     let x = math.matrix(x0);  // Set starting point
     let k = 0;                // Iteration counter
-    const n = 10;             // TODO: what is this?
+    const n = 2;              // TODO: is this fine matching the function n?
 
     let d = math.multiply(-1, theta.gradient(x));
     let optima = null;
 
     // Run the algorithm
     while (math.norm(theta.gradient(x)) > tolerance && k < maxIterations) {
-      let y = x;
+      let y = math.matrix(x);
 
       for (let j = 0; j < n; j++) {
-        const yPrev = y;
+        const yPrev = math.matrix(y);
         const argmin = theta.stepSizeFunction(y, d);  // Returns 1D function of lambda
         optima = lineSearch.run(argmin, lineSearchParams);
         y = math.add(y, math.multiply(optima.minPoint, d));
@@ -123,11 +126,11 @@ const ConjugateGradientMethod = {
           math.square(math.norm(theta.gradient(yPrev)))
         );
         d = math.add(math.multiply(-1, theta.gradient(y)), math.multiply(alpha, d));
+        k++;
       }
 
-      x = y;
+      x = math.matrix(y);
       d = theta.gradient(x);
-      k++;
 
       // Track performance and steps
       lsPerformance.iterations += optima.performance.iterations;
@@ -151,12 +154,13 @@ const ConjugateGradientMethod = {
 
 
 const HeavyBallMethod = {
+  name: 'HeavyBallMethod',
   sliderParams: {
     ...defaultParams(['tolerance', 'maxIterations']),
     beta: {
       min: 0,
       max: 2,
-      step: 0.1,
+      step: 0.01,
       value: 0.5,
     },
   },

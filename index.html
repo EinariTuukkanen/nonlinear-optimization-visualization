@@ -4,17 +4,19 @@
   <title>Nonlinear Optimization - Visualization</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="author" content="Ben Frederickson">
-  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+  <!-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous"> -->
   <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
 
-<div id="contour_graph" style="width:600px"> </div>
-
 <div class="container">
   <div id="targetFunction">
-    <b>Target Function</b><br />
+    <b>Target Function: &nbsp;</b>
+
+    <button onclick="clearPlot()">Clear</button>
   </div>
+
+  <div id="contour_graph" style="width:800px"> </div>
 
   <div id="resultMessage">
     <span id="status">Click on the plot to begin</span><br />
@@ -23,15 +25,16 @@
     <span id="lsPerformance"></span>
   </div>
 
-  <div id="mainMethodParameters">
-    <b>Main Method</b><br />
+  <div class="methodRow">
+    <div id="mainMethodParameters">
+      <b>Main Method</b><br />
+    </div>
+    <div id="lineSearchMethodParameters">
+      <b>Line Search Method</b><br />
+    </div>
   </div>
 
-  <br />
-
-  <div id="lineSearchMethodParameters">
-    <b>Line Search Method</b><br />
-  </div>
+  <br /><br /><br /><br /><br /><br /><br /><br />
 </div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/4.2.3/d3.min.js"></script>
@@ -51,15 +54,11 @@ let theta = himmelblau;
 let mainMethod = NewtonsMethod;
 let lineSearchMethod = ConstantSearch;
 
-const lineSearchColors = {
-  ConstantSearch: '#FF0000',
-  GoldenSectionSearch: '#800000',
-  BisectionSearch: '#FFFF00',
-  DichotomousSearch: '#808000',
-  FibonacciSearch: '#00FF00',
-  UniformSearch: '#008000',
-  NewtonsSearch: '#00FFFF',
-  ArmijoSearch: '#FF00FF',
+const mainMethodColors = {
+  NewtonsMethod: '#FF0000',
+  GradientDescentMethod: '#800000',
+  ConjugateGradientMethod: '#FFFF00',
+  HeavyBallMethod: '#808000',
 }
 
 // Initalize graphical interface
@@ -105,7 +104,7 @@ function initPlot(selector, theta) {
       lineSearchMethod,
       lineSearchMethod.params,
     );
-    const fparams = r.minPoint.toArray().map(i => i.toFixed(3));
+    const fparams = r.minPoint.toArray().map(i => !!i.toFixed ? i.toFixed(3) : i);
     const fvalue = r.minValue.toFixed(3);
     const iterations = r.performance.iterations;
     const duration = r.performance.duration.toFixed(1);
@@ -114,13 +113,18 @@ function initPlot(selector, theta) {
     console.log(
       (r.foundMinimum ?
       `FOUND MINIMUM:\nf(${fparams}) = ${fvalue}\n` :
-      `NO MINIMUM:\nf(${r.minPoint.toArray().map(i => i.toFixed(3))}) = ${r.minValue.toFixed(3)}\n`) +
+      `NO MINIMUM:\nf(${fparams}) = ${r.minValue.toFixed(3)}\n`) +
       `in ${iterations} iterations (${duration} ms)\n` +
       `Linesearch total: ${lsIterations} iterations (${lsDuration} ms)`
     );
     updateResultMessage(r.foundMinimum, fparams, fvalue, iterations, duration, lsIterations, lsDuration);
-    visualizeAlgorithm(plot, r.steps, lineSearchColors[lineSearchMethod.name]);
+    visualizeAlgorithm(plot, r.steps, mainMethodColors[mainMethod.name]);
   });
+}
+
+function clearPlot() {
+  $('.trace').remove();
+  $('circle').remove();
 }
 
 </script>
