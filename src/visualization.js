@@ -74,7 +74,7 @@ function visualizeAlgorithm(plot, _points, color) {
   function transition() {
     const p = points.shift();
     // Skip too large numbers (probably failing)
-    if (p[0] > 1e18 || p[1] > 1e18) {
+    if (Math.abs(p[0]) > 1e18 || Math.abs(p[1]) > 1e18) {
       return;
     }
 
