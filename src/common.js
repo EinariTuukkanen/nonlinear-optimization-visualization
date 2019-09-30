@@ -32,7 +32,7 @@ const defaultSliderParams = {
     min: -10,
     max: 0,
     step: 1,
-    value: -5,
+    value: -7,
     valueProperty: function(newValue) {
       if (newValue) { this.value = parseFloat(newValue); };
       return (10 ** this.value).toExponential(2);
