@@ -73,6 +73,10 @@ function visualizeAlgorithm(plot, _points, color) {
 
   function transition() {
     const p = points.shift();
+    // Skip too large numbers (probably failing)
+    if (p[0] > 1e18 || p[1] > 1e18) {
+      return;
+    }
 
     const path = plot.svg.append('path')
       .datum([p0, p])

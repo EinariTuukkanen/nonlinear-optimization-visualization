@@ -13,16 +13,16 @@ const defaultSliderParams = {
     value: 10,
   },
   lambda: {
-    min: -10,
-    max: 10,
-    step: 0.005,
+    min: -5,
+    max: 5,
+    step: 0.01,
     value: 1,
   },
   tolerance: {
     min: -10,
     max: 0,
     step: 1,
-    value: -6,
+    value: -4,
     valueProperty: function(newValue) {
       if (newValue) { this.value = parseFloat(newValue); };
       return (10 ** this.value).toExponential(2);
@@ -42,7 +42,7 @@ const defaultSliderParams = {
     min: 10,
     max: 2000,
     step: 10,
-    value: 100,
+    value: 500,
   },
   gamma: {
     min: 0,
