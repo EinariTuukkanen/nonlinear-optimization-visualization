@@ -68,3 +68,18 @@ select {
 .parameterContainer {
   width: 50%;
 }
+
+.legend {
+  display: flex;
+  justify-content: space-between;
+}
+
+#colorBox {
+  display: inline-block;
+  height: 15px;
+  width: 15px;
+  border-radius: 50%;
+  position: relative;
+  top: 3px;
+  border: 1px solid #000;
+}

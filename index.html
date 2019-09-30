@@ -13,6 +13,12 @@
   <div id="targetFunction">
     <b>Target Function: &nbsp;</b>
   </div>
+  <!-- <div class="legend">
+    <span class="NewtonsMethod">Newton's method</span>
+    <span class="GradientDescentMethod">Gradient descent method</span>
+    <span class="ConjugateGradientMethod">Conjugate gradient method</span>
+    <span class="HeavyBallMethod">Heavy ball method</span>
+  </div> -->
 
   <div id="contour_graph" style="width:800px"> </div>
  
@@ -29,7 +35,9 @@
 
   <div class="methodRow">
     <div class="parameterContainer" id="mainMethodParameters">
-      <b>Main Method</b><br />
+      <b>Main Method</b>
+      <div id="colorBox"></div>
+      <br />
     </div>
     <div class="parameterContainer" id="lineSearchMethodParameters">
       <b>Line Search Method</b><br />
@@ -59,9 +67,14 @@ let lineSearchMethod = ConstantSearch;
 const mainMethodColors = {
   NewtonsMethod: '#FF0000',
   GradientDescentMethod: '#FF00FF',
-  ConjugateGradientMethod: '#FFFF00',
-  HeavyBallMethod: '#00FF00',
+  ConjugateGradientMethod: '#ff8806',
+  HeavyBallMethod: '#28771b',
 }
+
+// Object.entries(mainMethodColors).forEach(([k, v]) => {
+//   console.log(k, v);
+//   $(`.${k}`).css('color', v);
+// })
 
 // Initalize graphical interface
 initDropdown(
@@ -71,17 +84,21 @@ initDropdown(
 );
 initDropdown(
   '#mainMethodParameters',
-  (v) => initSliders(mainMethods[v], lineSearchMethod),
+  (v) => _initSliders(mainMethods[v], lineSearchMethod),
   Object.keys(mainMethods)
 );
 initDropdown(
   '#lineSearchMethodParameters',
-  (v) => initSliders(mainMethod, lineSearchMethods[v]),
+  (v) => _initSliders(mainMethod, lineSearchMethods[v]),
   Object.keys(lineSearchMethods)
 );
-initSliders(mainMethod, lineSearchMethod);
+_initSliders(mainMethod, lineSearchMethod);
 initPlot('#contour_graph', theta);
 
+function _initSliders(mainMethod, lineSearchMethod) {
+  initSliders(mainMethod, lineSearchMethod);
+  $('#colorBox').css('background-color', mainMethodColors[mainMethod.name]);
+}
 
 function initPlot(selector, theta) {
   // Reset existing graphs plot
