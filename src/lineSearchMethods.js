@@ -241,38 +241,38 @@ const NewtonsSearch = {
   }
 }
 
-
 const UniformSearch = {
-  name: 'UniformSearch',
+  name: "UniformSearch",
   sliderParams: {
-    ...defaultParams(['a', 'b', 'tolerance', 'maxIterations']),
+    ...defaultParams(["a", "b", "tolerance", "maxIterations"]),
     intervalCount: {
       min: 1,
       max: 100,
       step: 1,
-      value: 20,
+      value: 5
     },
     intervalMultiplier: {
       min: 0,
       max: 10,
-      value: 1,
       step: 0.1,
+      value: 1
     }
   },
 
   run: function(theta, params) {
     const startTime = Date.now();
     const { tolerance, intervalMultiplier, maxIterations } = params;
-    let { a, b, intervalCount } = params;
+    let { a, b, intervalCount } = params;
 
     const steps = [a];
     let intervalSize = (b - a) / intervalCount,
-        minValue = Infinity,
-        minPoint = a,
-        k = 0;
+      minValue = theta(a),
+      minPoint = a,
+      k = 0;
 
     while (intervalSize > tolerance && k < maxIterations) {
       for (let i = 0; i < intervalCount; i++) {
+        k++;
         let x = a + i * intervalSize;
         let y = theta(x);
 
@@ -285,11 +285,10 @@ const UniformSearch = {
       }
 
       // Iterate to improve accuracy
-      a = minValue - intervalSize;
-      b = minValue + intervalSize;
-      intervalCount *= intervalMultiplier;
+      a = minPoint - intervalSize;
+      b = minPoint + intervalSize;
+      intervalCount = parseInt(intervalCount * intervalMultiplier);
       intervalSize = (b - a) / intervalCount;
-      k++;
     }
 
     return {
@@ -298,12 +297,11 @@ const UniformSearch = {
       minValue,
       performance: {
         iterations: k,
-        duration: Date.now() - startTime,
+        duration: Date.now() - startTime
       }
-    }
+    };
   }
-}
-
+};
 
 const ArmijoSearch = {
   name: 'ArmijoSearch',
