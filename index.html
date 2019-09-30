@@ -12,24 +12,26 @@
 <div class="container">
   <div id="targetFunction">
     <b>Target Function: &nbsp;</b>
-
-    <button onclick="clearPlot()">Clear</button>
   </div>
 
   <div id="contour_graph" style="width:800px"> </div>
+ 
+  <div class="resultRow">
+    <div id="resultMessage">
+      <span id="status">Click on the plot to begin</span><br />
+      <span id="solution"></span><br />
+      <span id="performance"></span><br />
+      <span id="lsPerformance"></span>
+    </div>
 
-  <div id="resultMessage">
-    <span id="status">Click on the plot to begin</span><br />
-    <span id="solution"></span><br />
-    <span id="performance"></span><br />
-    <span id="lsPerformance"></span>
+    <button id="clearButton" onclick="clearPlot()">Clear</button>
   </div>
 
   <div class="methodRow">
-    <div id="mainMethodParameters">
+    <div class="parameterContainer" id="mainMethodParameters">
       <b>Main Method</b><br />
     </div>
-    <div id="lineSearchMethodParameters">
+    <div class="parameterContainer" id="lineSearchMethodParameters">
       <b>Line Search Method</b><br />
     </div>
   </div>

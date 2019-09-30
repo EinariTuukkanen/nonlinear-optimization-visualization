@@ -36,6 +36,15 @@ select {
   margin-bottom: 10px;
 }
 
+.resultRow {
+  display: flex;
+}
+
+#clearButton {
+  height: 30px;
+  margin: auto 10px;
+}
+
 #targetFunction {
   display: flex;
   justify-content: center;
@@ -54,4 +63,8 @@ select {
 
 #resultMessage.incorrect {
   background-color: #eec0c0;
+}
+
+.parameterContainer {
+  width: 50%;
 }
