@@ -86,9 +86,10 @@ initPlot('#contour_graph', theta);
 function initPlot(selector, theta) {
   // Reset existing graphs plot
   removeChildren(selector);
+  $('path').remove();
 
   const contourPlot = contour_plot.ContourPlot()
-    .f(theta.eval)
+    .f(theta)
     .drawAxis(false)
     .xDomain(theta.xDomain)
     .yDomain(theta.yDomain)

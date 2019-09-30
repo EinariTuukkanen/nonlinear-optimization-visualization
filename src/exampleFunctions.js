@@ -2,6 +2,7 @@
  * f(x, y) = (x ^ 2 + y - 11) ^ 2 + (x + y ^ 2 - 7) ^ 2
  */
 const himmelblau = generate2DFunction(
+  'himmelblau',
   ([x, y]) => (x ** 2 + y - 11) ** 2 + (x + y ** 2 - 7) ** 2,
   '(x ^ 2 + y - 11) ^ 2 + (x + y ^ 2 - 7) ^ 2',
   '((x1 + l * d1) ^ 2 + (x2 + l * d2) - 11) ^ 2 + ((x1 + l * d1) + (x2 + l * d2) ^ 2 - 7) ^ 2',
@@ -14,6 +15,7 @@ const himmelblau = generate2DFunction(
  * f(x, y) = 0.26 * (x ^ 2 + y ^ 2) - 0.48 * x * y
  */
 const matyasFunction = generate2DFunction(
+  'matayasFunction',
   ([x, y]) => 0.26 * (x ** 2 + y ** 2) - 0.48 * x * y,
   '0.26 * (x ^ 2 + y ^ 2) - 0.48 * x * y',
   '0.26 * ((x1 + l * d1) ^ 2 + (x2 + l * d2) ^ 2) - 0.48 * (x1 + l * d1) * (x2 + l * d2)',
@@ -26,6 +28,7 @@ const matyasFunction = generate2DFunction(
  * f(x, y) = 0.26 * (x ^ 2 + y ^ 2) - 0.48 * x * y
  */
 const exponentFunction = generate2DFunction(
+  'exponentFunction',
   ([x, y]) => x * Math.exp(-(x ** 2 + y ** 2)) + (x ** 2 + y ** 2) / 20,
   'x * exp(-(x ^ 2 + y ^ 2)) + (x ^ 2 + y ^ 2) / 20',
   '(x1 + l * d1) * exp(-((x1 + l * d1) ^ 2 + (x2 + l * d2) ^ 2)) + ((x1 + l * d1) ^ 2 + (x2 + l * d2) ^ 2) / 20',
@@ -38,6 +41,7 @@ const exponentFunction = generate2DFunction(
  * f(x, y) = 0.26 * (x ^ 2 + y ^ 2) - 0.48 * x * y
  */
 const rosenbrockFunction  = generate2DFunction(
+  'rosenbrockFunction',
   ([x, y]) => (1 - x) ** 2 + 100 * (y - x ** 2) ** 2,
   '(1 - x) ^ 2 + 100 * (y - x ^ 2) ^ 2',
   '(1 - (x1 + l * d1)) ^ 2 + 100 * ((x2 + l * d2) - (x1 + l * d1) ^ 2) ^ 2',
@@ -47,7 +51,7 @@ const rosenbrockFunction  = generate2DFunction(
 );
 
 
-function generate2DFunction(fastEval, equation, stepSizeEquation, minima, xDomain, yDomain) {
+function generate2DFunction(name, fastEval, equation, stepSizeEquation, minima, xDomain, yDomain) {
   /* Helper to generate 2D functions in form f(x, y)
    * Inserts all required subfunctions as properties for the main function
    * - fastEval: function in plain js to increase performance (mathjs eval is slow)
@@ -58,10 +62,12 @@ function generate2DFunction(fastEval, equation, stepSizeEquation, minima, xDomai
    * - yDomain: range of y [yMin, yMax]
    */
   const e = math.parse(equation);
-  const f = (v) => {
-    return fastEval(v.toArray());
+  const f = (x, y) => {
+    return fastEval([x, y]);
   }
-  f.eval = (x, y) => { return f(math.matrix([x, y])); }
+  f.nameStr = name;
+  // f.eval = (x, y) => { return fastEval([x, y]); }
+  // f.eval = (x, y) => { return f(math.matrix([x, y])); }
   f._dx = math.derivative(e, 'x');
   f._dy = math.derivative(e, 'y');
   f._ddx = math.derivative(f._dx, 'x');
@@ -98,7 +104,7 @@ function generate2DFunction(fastEval, equation, stepSizeEquation, minima, xDomai
   f.xDomain = xDomain;
   f.yDomain = yDomain;
   f.minima = minima;
-  f.minValues = minima.map(p => f(math.matrix([p.x, p.y])))
+  f.minValues = minima.map(p => f(p.x, p.y));
   return f;
 }
 

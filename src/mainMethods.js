@@ -37,10 +37,10 @@ const NewtonsMethod = {
     }
 
     return {
-      foundMinimum: testMinimum(theta, theta(x)),
+      foundMinimum: testMinimum(theta, theta(...x.toArray())),
       steps,
       minPoint: x,
-      minValue: theta(x),
+      minValue: theta(...x.toArray()),
       performance: {
         iterations: k,
         duration: Date.now() - startTime,
@@ -80,10 +80,10 @@ const GradientDescentMethod = {
     }
 
     return {
-      foundMinimum: testMinimum(theta, theta(x)),
+      foundMinimum: testMinimum(theta, theta(...x.toArray())),
       steps,
       minPoint: x,
-      minValue: theta(x),
+      minValue: theta(...x.toArray()),
       performance: {
         iterations: k,
         duration: Date.now() - startTime,
@@ -139,10 +139,10 @@ const ConjugateGradientMethod = {
     }
 
     return {
-      foundMinimum: testMinimum(theta, theta(x)),
+      foundMinimum: testMinimum(theta, theta(...x.toArray())),
       steps,
       minPoint: x,
-      minValue: theta(x),
+      minValue: theta(...x.toArray()),
       performance: {
         iterations: k,
         duration: Date.now() - startTime,
@@ -197,10 +197,10 @@ const HeavyBallMethod = {
     }
 
     return {
-      foundMinimum: testMinimum(theta, theta(x)),
+      foundMinimum: testMinimum(theta, theta(...x.toArray())),
       steps,
       minPoint: x,
-      minValue: theta(x),
+      minValue: theta(...x.toArray()),
       performance: {
         iterations: k,
         duration: Date.now() - startTime,

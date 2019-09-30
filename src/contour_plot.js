@@ -236,10 +236,22 @@
 
   function getContours(f, xScale, yScale, count, minima) {
       // figure out even distribution in log space of values
-      var levels = getLogLevels(f, xScale, yScale, count);
+      // let levels = window.localStorage.getItem(f.nameStr + '_levels');
+      // if (!levels) {
+      const levels = getLogLevels(f, xScale, yScale, count);
+      //   window.localStorage.setItem(f.nameStr + '_levels', JSON.stringify(levels));
+      // } else {
+      //   levels = JSON.parse(levels);
+      // }
 
       // use marching squares algo from d3.geom.contour to build up a series of paths
-      var ret = [];
+      // let ret = window.localStorage.getItem(f.nameStr + '_ret');
+      // if (ret) {
+      //   console.log('Loaded contours from local storage.');
+      //   return {'paths': JSON.parse(ret), 'levels': levels};
+      // }
+      const ret = [];
+
       for (var i = 0; i < levels.length; ++i) {
           var level = levels[i];
           var lineFunc = isoline(f, level, xScale, yScale);
@@ -281,6 +293,8 @@
 
           ret.push(points);
       }
+
+      // window.localStorage.setItem(f.nameStr + '_ret', JSON.stringify(ret));
 
       // return the contours
       return {'paths': ret, 'levels': levels};
@@ -354,7 +368,6 @@
                   tooltip.transition().duration(400).style("opacity", 0);
                   tooltip.style("z-index", -1);
              });
-
           var contours = getContours(f, xScale, yScale, contourCount, minima);
           var paths = contours.paths,
               levels = contours.levels;
