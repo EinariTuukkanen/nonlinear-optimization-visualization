@@ -106,13 +106,13 @@ function visualizeAlgorithm(plot, _points, color) {
       .attr("stroke-dasharray", totalLength + " " + totalLength)
       .attr("stroke-dashoffset", totalLength)
       .transition()
-      .duration(1000)
+      .duration(800)
       // .ease(d3.easeLinear)
       .attr("stroke-dashoffset", 0);
 
     circle
       .transition()
-      .duration(1000)
+      .duration(800)
       // .ease(d3.easeLinear)
       .attr("transform", `translate(${p})`)
       .on("end", () => {
