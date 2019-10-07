@@ -63,6 +63,7 @@
 let theta = himmelblau;
 let mainMethod = NewtonsMethod;
 let lineSearchMethod = ConstantSearch;
+let clearSignal = false;
 
 const mainMethodColors = {
   NewtonsMethod: '#FF0000',
@@ -137,12 +138,14 @@ function initPlot(selector, theta) {
       `in ${iterations} iterations (${duration} ms)\n` +
       `Linesearch total: ${lsIterations} iterations (${lsDuration} ms)`
     );
+    clearSignal = false;
     updateResultMessage(r.foundMinimum, fparams, fvalue, iterations, duration, lsIterations, lsDuration);
     visualizeAlgorithm(plot, r.steps, mainMethodColors[mainMethod.name]);
   });
 }
 
 function clearPlot() {
+  clearSignal = true;
   $('.trace').remove();
   $('circle').remove();
 }
