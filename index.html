@@ -11,7 +11,9 @@
 
 <div class="container">
   <div id="targetFunction">
-    <b>Target Function: &nbsp;</b>
+    <div id="targetFunctionSelector">
+      <b>Target Function: &nbsp;</b></div>
+    <div id="targetFunctionFormula"></div>
   </div>
   <!-- <div class="legend">
     <span class="NewtonsMethod">Newton's method</span>
@@ -79,7 +81,7 @@ const mainMethodColors = {
 
 // Initalize graphical interface
 initDropdown(
-  '#targetFunction',
+  '#targetFunctionSelector',
   (v) => initPlot('#contour_graph', visualizableFunctions[v]),
   Object.keys(visualizableFunctions)
 );
@@ -102,6 +104,9 @@ function _initSliders(mainMethod, lineSearchMethod) {
 }
 
 function initPlot(selector, theta) {
+  clearPlot();
+  updateFormula(theta.nameStr);
+  
   // Reset existing graphs plot
   removeChildren(selector);
   $('path').remove();
@@ -144,10 +149,24 @@ function initPlot(selector, theta) {
   });
 }
 
+function updateFormula(filename) {
+  $(".theta-formula").remove();
+  const formula = document.createElement("img");
+  formula.src = `img/${filename}.png`;
+  formula.className = 'theta-formula';
+  $('#targetFunctionFormula').append(formula);
+}
+
 function clearPlot() {
   clearSignal = true;
   $('.trace').remove();
   $('circle').remove();
+  $('#resultMessage').removeClass('correct');
+  $('#resultMessage').removeClass('incorrect');
+  $('#status').text('Click on the plot to begin')
+  $('#solution').text('')
+  $('#performance').text('')
+  $('#lsPerformance').text('')
 }
 
 </script>

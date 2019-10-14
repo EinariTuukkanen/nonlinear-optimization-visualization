@@ -1,11 +1,11 @@
 .axis path,
 .axis line {
-    fill: none;
-    stroke: #666;
+  fill: none;
+  stroke: #666;
 }
 .axis {
   font-family: "helvetica-nueue";
-    font-size: 10px;
+  font-size: 10px;
 }
 .dot {
   /* fill: #ff1100; */
@@ -25,6 +25,11 @@
   padding: 10px;
   width: 800px;
   margin: 0;
+}
+
+.theta-formula {
+  max-height: 32px;
+  margin-left: 10px;
 }
 
 .methodRow {
@@ -47,14 +52,21 @@ select {
 
 #targetFunction {
   display: flex;
-  justify-content: center;
+  align-items: flex-start;
+  min-height: 32px;
+}
+
+#targetFunctionSelector {
+  width: 50%;
+  text-align: right;
 }
 
 #resultMessage {
   width: 100%;
-  background-color: #ffffff;
+  background-color: #eee;
   margin: 10px 0;
   padding: 10px;
+  min-height: 72px;
 }
 
 #resultMessage.correct {
